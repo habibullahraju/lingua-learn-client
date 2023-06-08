@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from "react";
 import PopularInstructorCard from "./PopularInstructorCard";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Instructors = () => {
   const [popularInstructors, setPopularInstructors] = useState([]);
+  const [axiosSecure] = useAxiosSecure();
   useEffect(() => {
-    fetch("http://localhost:5000/instructor")
-      .then((res) => res.json())
+    axiosSecure("/instructor")
       .then((data) => {
-        setPopularInstructors(data);
+        setPopularInstructors(data.data);
       });
   }, []);
   return (

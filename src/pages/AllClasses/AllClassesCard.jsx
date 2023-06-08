@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
+import useAdmin from "../../hooks/useAdmin";
+import useInstructor from "../../hooks/useInstructor";
+import { AuthContext } from "../../Providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const AllClassesCard = ({allClass}) => {
-  const {name, image, price, availableSeat, instructorName} = allClass;
+  const navigate = useNavigate()
+  const {user} = useContext(AuthContext);
+  const [isAdmin] = useAdmin();
+  const [isInstructor] = useInstructor();
+  const {_id, name, image, price, availableSeat, instructorName} = allClass;
+
+  const handleSelectItem = id =>{
+    if (!user) {
+      return navigate('/login')
+    }
+    console.log(id);
+  }
+
+
+
   return (
     <div className="card w-full bg-base-100 shadow-xl">
       <figure>
@@ -16,7 +34,7 @@ const AllClassesCard = ({allClass}) => {
         <p><span className="font-bold">Available Seats:</span> {availableSeat}</p>
         <p><span className="font-bold">Price:</span> ${price}</p>
         <div className="card-actions justify-end">
-          <button className="btn btn-primary">Select</button>
+          <button onClick={()=>handleSelectItem(_id)} disabled={isAdmin | isInstructor}  className="btn btn-primary">Select</button>
         </div>
       </div>
     </div>
