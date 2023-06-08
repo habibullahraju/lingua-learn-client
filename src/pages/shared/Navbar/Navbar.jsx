@@ -13,10 +13,10 @@ const Navbar = () => {
         <Link to="/instructor">Instructors</Link>
       </li>
       <li>
-        <Link to="/">Classes</Link>
+        <Link to="/all-classes">Classes</Link>
       </li>
      { user&& <li>
-        <Link>Dashboard </Link>
+        <Link to='/dashboard/selected-class'>Dashboard </Link>
       </li>}
     </>
   );

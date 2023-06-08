@@ -8,7 +8,7 @@ const InstructorCard = ({instructor}) => {
         <img
           src={image}
           alt="instructor"
-          className="rounded-xl w-full"
+          className="rounded-xl w-full h-72 object-cover"
         />
       </figure>
       <div className="card-body items-center text-center">

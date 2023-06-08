@@ -7,6 +7,9 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Instructors from "../pages/Instructors/Instructors";
 import AllInstructors from "../pages/AllInstructors/AllInstructors";
+import AllClasses from "../pages/AllClasses/AllClasses";
+import Dashboard from "../Dashboard/Dashboard/Dashboard";
+import SelectedClass from "../Dashboard/SelectedClass/SelectedClass";
 
 
   export const router = createBrowserRouter([
@@ -29,7 +32,22 @@ import AllInstructors from "../pages/AllInstructors/AllInstructors";
         {
           path: '/instructor',
           element: <AllInstructors></AllInstructors>
+        },
+        {
+          path: '/all-classes',
+          element: <AllClasses></AllClasses>
         }
       ]
     },
+    {
+      path: '/dashboard',
+      element: <Dashboard></Dashboard>,
+      children: [
+        {
+          path: 'selected-class',
+          element: <SelectedClass></SelectedClass>
+        }
+      ]
+      
+    }
   ]);

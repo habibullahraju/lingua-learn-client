@@ -6,7 +6,7 @@ const PopularInstructorCard = ({popularInstructor}) => {
 
   return (
     <div className="card w-full  bg-base-100 shadow-xl">
-        <h2 className="mt-8 text-xl font-bold text-center ">{name}</h2>
+        
       <figure className="px-10 pt-10">
         <img
           src={image}
@@ -15,6 +15,7 @@ const PopularInstructorCard = ({popularInstructor}) => {
         />
       </figure>
       <div className="card-body items-center text-center">
+      <h2 className=" text-xl font-bold text-center ">{name}</h2>
         
         <p className="text-md"><span className="font-bold ">Email:</span>{email}</p>
         <div className="card-actions">
