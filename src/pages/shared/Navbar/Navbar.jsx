@@ -1,31 +1,37 @@
-import React, { useContext } from "react";
+import React, {useContext} from "react";
 import {Link} from "react-router-dom";
-import { AuthContext } from "../../../Providers/AuthProvider";
+import {AuthContext} from "../../../Providers/AuthProvider";
 
 const Navbar = () => {
-  const {user} = useContext(AuthContext)
-  console.log(user);
-    const navOptions = (
-        <>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/">Instructors</Link>
-          </li>
-          <li>
-            <Link to="/">Classes</Link>
-          </li>
-          <li>
-            <Link>Dashboard </Link>
-          </li>
-        </>
-      );
+  const {user, logOut} = useContext(AuthContext);
+  const navOptions = (
+    <>
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="/instructor">Instructors</Link>
+      </li>
+      <li>
+        <Link to="/">Classes</Link>
+      </li>
+     { user&& <li>
+        <Link>Dashboard </Link>
+      </li>}
+    </>
+  );
+  const handleLogOut = () => {
+    logOut()
+    .then(()=>{})
+    .catch(error =>{
+      console.log(error);
+    })
+  };
   return (
     <div>
       <div className="navbar bg-base-200">
         <div className="navbar-start">
-          <div className="dropdown">
+          <div className="dropdown z-10">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -76,14 +82,22 @@ const Navbar = () => {
               </div>
             </label>
           </div>
-          <div className="">
+         {user && <div className="">
             <label className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnN8ZW58MHx8MHx8fDA%3D&w=1000&q=80" />
+                <img src={user?.photoURL} />
               </div>
             </label>
-          </div>
-          <Link to="/login" className="btn btn-primary">Login</Link>
+          </div>}
+          {user ? (
+            <button onClick={handleLogOut} className="btn btn-primary">
+              Log Out
+            </button>
+          ) : (
+            <Link to="/login" className="btn btn-primary">
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </div>

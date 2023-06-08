@@ -1,17 +1,99 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import loginVector from "../../assets/undraw_sign_up_n6im.svg";
 import {FaEyeSlash, FaEye} from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Providers/AuthProvider';
+import Swal from 'sweetalert2';
 
 
 const Register = () => {
     const [seePassword, setSeePassword] = useState(false);
-
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const [passMatch, setPassMatch] = useState('')
+    const {createUser,updateUserProfile,signInWithGoogle} = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
     const onSubmit = data => {
-      console.log(data)
+        if (data.password !== data.confirmPassword) {
+          return  setPassMatch('your password does not match')
+        }
+        else{
+            setPassMatch('')
+        }
+      console.log(data.photo)
+      createUser(data.email, data.password)
+      .then(result =>{
+        const loggedUser = result.user;
+        console.log(loggedUser);
+        updateUserProfile(data.name, data.photo)
+        .then(()=>{
+            const saveUser ={name: data.name, email:data.email, image:data.photo};
+            fetch('http://localhost:5000/users', {
+              method: "POST",
+              headers: {
+                'content-type': 'application/json'
+              },
+              body: JSON.stringify(saveUser)
+            })
+            .then(res => res.json())
+            .then(data =>{
+              if (data.insertedId) {
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: 'User created successfully',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+                navigate(from, {replace: true});
+              }
+            })
+            reset();
+            //TODO: this line i will do navigate 
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+
+      })
+      .catch(error =>{
+        console.log(error);
+      })
   };
+  const handleGoogleLogin = ()=>{
+    signInWithGoogle()
+    .then(result =>{
+        const loggedUser = result.user;
+        console.log(loggedUser);
+        const saveUser ={name: loggedUser.displayName, email: loggedUser.email, image:loggedUser.photoURL};
+        fetch('http://localhost:5000/users', {
+          method: "POST",
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(saveUser)
+        })
+        .then(res => res.json())
+        .then(data =>{
+          if (data.insertedId) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'User created successfully',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            navigate(from, {replace: true});
+          }
+        })
+        
+    })
+    .catch(error =>{
+        console.log(error);
+    })
+  }
     return (
         <div>
             <div className="hero min-h-screen bg-base-200">
@@ -54,10 +136,12 @@ const Register = () => {
                 <input
                   type={seePassword ? "text" : "password"}
                   placeholder="Password"
-                  {...register("password")}
+                  {...register("password",{minLength: 6, pattern: /(?=.*?[A-Z])(?=.*?[#?!@$%^&*-])/ })}
                   required
                   className="input input-bordered "
                 />
+                {errors.password && <span>minimum one Capital letter and special characters</span>}
+                
                 <button
                 type="button"
                   onClick={() => setSeePassword(!seePassword)}
@@ -77,6 +161,7 @@ const Register = () => {
                   required
                   className="input input-bordered "
                 />
+                {passMatch}
                 <button
                 type="button"
                   onClick={() => setSeePassword(!seePassword)}
@@ -95,11 +180,11 @@ const Register = () => {
                 />
               </div>
               <div className="form-control mt-6">
-                <input className="btn btn-primary" type="submit" value="Login" />
+                <input className="btn btn-primary" type="submit" value="Register" />
               </div>
              </form>
               <div className="divider">OR</div>
-              <button className="btn btn-primary">with Google </button>
+              <button onClick={handleGoogleLogin} className="btn btn-primary">with Google </button>
               <p className='text-center'>Already have an account? <Link to="/login" className='text-blue-700'>Please Login</Link></p>
             </div>
           </div>
