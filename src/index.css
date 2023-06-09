@@ -6,3 +6,6 @@
     margin: 0 auto;
   }
   
+  .drawer-side a.active {
+    color: #f0c400
+}

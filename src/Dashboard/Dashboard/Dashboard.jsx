@@ -23,7 +23,7 @@ const Dashboard = () => {
             htmlFor="my-drawer-2"
             className="btn btn-primary drawer-button lg:hidden"
           >
-            Open drawer
+            Open Menu
           </label>
           <Outlet></Outlet>
         </div>
@@ -55,9 +55,9 @@ const Dashboard = () => {
           </li>
             }
             {/* TODO */}
-            {isAdmin && <li>Admin</li>}
-            {isInstructor && <li><NavLink><FaAdjust></FaAdjust> Add a Class</NavLink></li>}
-            {isInstructor && <li><NavLink><FaFileAlt></FaFileAlt> My Classes</NavLink></li>}
+            
+            {isInstructor && <li><NavLink to="/dashboard/add-class"><FaAdjust></FaAdjust> Add a Class</NavLink></li>}
+            {isInstructor && <li><NavLink to="/dashboard/my-classes"><FaFileAlt></FaFileAlt> My Classes</NavLink></li>}
             {isAdmin && <li><NavLink><FaMagento></FaMagento> Manage classes</NavLink></li>}
             {isAdmin && <li><NavLink><FaUserEdit></FaUserEdit> Manage User</NavLink></li>}
           </ul>
