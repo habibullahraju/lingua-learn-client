@@ -47,7 +47,7 @@ const AllClassesCard = ({allClass}) => {
 
 
   return (
-    <div className="card w-full bg-base-100 shadow-xl">
+    <div className={`card w-full  shadow-xl ${availableSeat !== 0? 'bg-base-100': 'bg-red-500'}`}>
       <figure>
         <img
           src={image}

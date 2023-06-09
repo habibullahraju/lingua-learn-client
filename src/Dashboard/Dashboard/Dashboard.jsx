@@ -58,8 +58,8 @@ const Dashboard = () => {
             
             {isInstructor && <li><NavLink to="/dashboard/add-class"><FaAdjust></FaAdjust> Add a Class</NavLink></li>}
             {isInstructor && <li><NavLink to="/dashboard/my-classes"><FaFileAlt></FaFileAlt> My Classes</NavLink></li>}
-            {isAdmin && <li><NavLink><FaMagento></FaMagento> Manage classes</NavLink></li>}
-            {isAdmin && <li><NavLink><FaUserEdit></FaUserEdit> Manage User</NavLink></li>}
+            {isAdmin && <li><NavLink to="/dashboard/manage-classes"><FaMagento></FaMagento> Manage classes</NavLink></li>}
+            {isAdmin && <li><NavLink to="/dashboard/manage-users"><FaUserEdit></FaUserEdit> Manage User</NavLink></li>}
           </ul>
         </div>
       </div>
