@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const MyClasses = () => {
   const {user} = useContext(AuthContext);
@@ -14,10 +15,18 @@ const MyClasses = () => {
       });
     }, [user]);
   }
-  const handleFeedback = item =>{
-    console.log(item);
-  }
-  console.log(myClasses);
+  const handleFeedback = (item) => {
+    if (item._id) {
+      axiosSecure.get(`/see-feedback/${item?._id}`).then((data) => {
+        if (data.data.feedback) {
+            Swal.fire({
+                title: 'Feedback',
+                text: `${data.data.feedback}`,
+              })
+        }
+      });
+    }
+  };
 
   return (
     <div>
@@ -40,27 +49,30 @@ const MyClasses = () => {
             <tbody>
               {myClasses.map((myClass, index) => (
                 <tr key={myClass._id}>
-                  <th>
-                    {index +1}
-                  </th>
+                  <th>{index + 1}</th>
                   <td>
                     <div className="flex items-center space-x-3">
                       <div className="avatar">
                         <div className="mask mask-squircle w-12 h-12">
-                          <img
-                            src={myClass?.image}
-                          />
+                          <img src={myClass?.image} />
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td>
-                    {myClass?.name}
-                  </td>
+                  <td>{myClass?.name}</td>
                   <td>{myClass?.status}</td>
                   <td>{myClass?.enrolled}</td>
                   <th>
-                    <button onClick={()=> handleFeedback(myClass)}  className={`btn btn-ghost text-white hover:text-black bg-[#504DA6] btn-xs ${myClass?.status !=="pending"? 'bg-red-500 pointer-events-none opacity-25': "disabled"}`}>Feedback</button>
+                    <button
+                      onClick={() => handleFeedback(myClass)}
+                      className={`btn btn-ghost text-white hover:text-black bg-[#504DA6] btn-xs ${
+                        myClass?.status !== "denied"
+                          ? "bg-red-500 pointer-events-none opacity-25"
+                          : "disabled"
+                      }`}
+                    >
+                      Feedback
+                    </button>
                   </th>
                 </tr>
               ))}
