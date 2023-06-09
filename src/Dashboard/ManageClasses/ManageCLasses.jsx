@@ -25,22 +25,48 @@ const ManageCLasses = () => {
         }
       });
   };
-  const handleDenyItem =item =>{
+  const handleDenyItem = (item) => {
     axiosSecure
-    .put(`/approved-deny/${item?._id}`, {status: "denied"})
-    .then((data) => {
-      setReloadData(!reloadData);
-      if (data.data.modifiedCount > 0) {
+      .put(`/approved-deny/${item?._id}`, {status: "denied"})
+      .then((data) => {
+        setReloadData(!reloadData);
+        if (data.data.modifiedCount > 0) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your class has been denied",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+  };
+  const handleSendFeedback = (item) => {
+    Swal.fire({
+      title: "Please send your Feedback!",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Send",
+      showLoaderOnConfirm: true,
+      preConfirm: (feedback) => {
+        axiosSecure
+          .put(`/feedback/${item?._id}`, {feedback: feedback})
+          .then((data) => {
+            setReloadData(!reloadData);
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
         Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Your class has been denied",
-          showConfirmButton: false,
-          timer: 1500,
+          title: `Thank You for your feedback!`,
         });
       }
     });
-  }
+  };
 
   if (user) {
     useEffect(() => {
@@ -118,7 +144,7 @@ const ManageCLasses = () => {
                   </th>
                   <th>
                     <button
-                        onClick={()=> handleDenyItem(singleClass)}
+                      onClick={() => handleDenyItem(singleClass)}
                       className={`btn btn-ghost text-white hover:text-black bg-[#504DA6] btn-xs ${
                         singleClass?.status !== "pending"
                           ? "bg-red-500 pointer-events-none opacity-25"
@@ -133,7 +159,10 @@ const ManageCLasses = () => {
                     </button>
                   </th>
                   <th>
-                    <button className="btn btn-ghost bg-[#504DA6] text-white hover:text-black btn-xs">
+                    <button
+                      onClick={() => handleSendFeedback(singleClass)}
+                      className="btn btn-ghost bg-[#504DA6] text-white hover:text-black btn-xs"
+                    >
                       Feedback
                     </button>
                   </th>
