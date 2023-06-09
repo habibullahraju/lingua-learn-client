@@ -1,17 +1,56 @@
 import React, {useContext} from "react";
 import {useForm} from "react-hook-form";
 import {AuthContext} from "../../Providers/AuthProvider";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+
+
+const image_hosting_token= import.meta.env.VITE_Image_Upload_Token;
+
 
 const AddClasses = () => {
+    const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`
   const {user} = useContext(AuthContext);
+  const [axiosSecure] = useAxiosSecure()
+  
+
   const {
     register,
-    handleSubmit,
-    watch,
-    formState: {errors},
+    handleSubmit,reset,
   } = useForm();
+
+
   const onSubmit = (data) => {
     console.log(data)
+    const formData = new FormData()
+    formData.append('image', data.image[0])
+
+    fetch(image_hosting_url,{
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(imageResponse =>{
+        if (imageResponse.success) {
+            const imageUrl = imageResponse.data.display_url;
+            const {name, instructorName, email, availableSeat, price} = data;
+            const newClass = {name, image: imageUrl, instructorName, email, availableSeat, price: parseFloat(price), enrolled: 0, status: 'pending'}
+            
+            axiosSecure.post('/add-class', newClass)
+            .then(data => {
+                if (data.data.insertedId) {
+                    reset();
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Your class has been added',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                }
+            })
+        }
+    })
 };
   return (
     <div>
