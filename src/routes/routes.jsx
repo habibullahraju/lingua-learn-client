@@ -15,12 +15,16 @@ import AddClasses from "../Dashboard/AddClasses/AddClasses";
 import MyClasses from "../Dashboard/MyClasses/MyClasses";
 import ManageCLasses from "../Dashboard/ManageClasses/ManageCLasses";
 import ManageUser from "../Dashboard/ManageUser/ManageUser";
+import EnrolledClasses from "../Dashboard/EnrolledClasses/EnrolledClasses";
+import Payment from "../Dashboard/Payment/Payment";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 
   export const router = createBrowserRouter([
     {
       path: "/",
       element: <Main></Main>,
+      errorElement: <ErrorPage></ErrorPage>,
       children: [
         {
             path: '/',
@@ -51,6 +55,14 @@ import ManageUser from "../Dashboard/ManageUser/ManageUser";
         {
           path: 'selected-class',
           element: <SelectedClass></SelectedClass>
+        },
+        {
+            path: 'enroll-classes',
+            element: <EnrolledClasses></EnrolledClasses>
+        },
+        {
+          path: '/dashboard/payment',
+          element: <Payment></Payment>
         },
         {
           path: 'add-class',

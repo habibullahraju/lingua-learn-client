@@ -21,6 +21,7 @@ const Login = () => {
     .then(result =>{
       const loggedUser = result.user;
       console.log(loggedUser);
+      navigate(from, {replace: true});
       reset()
     })
     .catch(error =>{
@@ -43,6 +44,7 @@ const handleGoogleLogin = ()=>{
     .then(res => res.json())
     .then(data =>{
       if (data.insertedId) {
+        navigate(from, {replace: true});
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -50,7 +52,7 @@ const handleGoogleLogin = ()=>{
           showConfirmButton: false,
           timer: 1500
         })
-        navigate(from, {replace: true});
+        
       }
     })
   })

@@ -40,6 +40,7 @@ const Register = () => {
             .then(res => res.json())
             .then(data =>{
               if (data.insertedId) {
+                navigate(from, {replace: true});
                 Swal.fire({
                   position: 'top-end',
                   icon: 'success',
@@ -47,7 +48,7 @@ const Register = () => {
                   showConfirmButton: false,
                   timer: 1500
                 })
-                navigate(from, {replace: true});
+                
               }
             })
             reset();
