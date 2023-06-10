@@ -18,6 +18,8 @@ import ManageUser from "../Dashboard/ManageUser/ManageUser";
 import EnrolledClasses from "../Dashboard/EnrolledClasses/EnrolledClasses";
 import Payment from "../Dashboard/Payment/Payment";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import AdminRoute from "./AdminRoute";
+import InstructorRoute from "./InstructorRoute";
 
 
   export const router = createBrowserRouter([
@@ -66,19 +68,19 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
         },
         {
           path: 'add-class',
-          element: <AddClasses></AddClasses>
+          element: <InstructorRoute><AddClasses></AddClasses></InstructorRoute>
         },
         {
           path: 'my-classes',
-          element: <MyClasses></MyClasses>
+          element: <InstructorRoute><MyClasses></MyClasses></InstructorRoute>
         },
         {
           path: 'manage-classes',
-          element: <ManageCLasses></ManageCLasses>
+          element: <AdminRoute><ManageCLasses></ManageCLasses></AdminRoute>
         },
         {
           path: 'manage-users',
-          element: <ManageUser></ManageUser>
+          element: <AdminRoute><ManageUser></ManageUser></AdminRoute>
         }
       ]
       

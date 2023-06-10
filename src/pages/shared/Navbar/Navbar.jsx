@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import {Link} from "react-router-dom";
 import {AuthContext} from "../../../Providers/AuthProvider";
 import useCart from "../../../hooks/useCart";
+import logo from '../../../../public/logo.png';
 
 const Navbar = () => {
   const {user, logOut} = useContext(AuthContext);
@@ -57,7 +58,7 @@ const Navbar = () => {
               {navOptions}
             </ul>
           </div>
-          <a className="btn btn-ghost normal-case text-xl">Lingua Learn</a>
+          <Link to="/" className="btn btn-ghost normal-case text-xl"><img className="w-10" src={logo} alt="" /> Lingua Learn</Link>
         </div>
         <div className="navbar-end hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navOptions}</ul>

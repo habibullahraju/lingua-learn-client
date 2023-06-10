@@ -5,6 +5,7 @@ import useAdmin from "../../hooks/useAdmin";
 import useInstructor from "../../hooks/useInstructor";
 import {AuthContext} from "../../Providers/AuthProvider";
 import { FaAdjust, FaBookmark, FaFileAlt, FaMagento, FaMoneyBillAlt, FaSith, FaUserEdit } from 'react-icons/fa';
+import {motion} from "framer-motion";
 
 const Dashboard = () => {
   const {user} = useContext(AuthContext);
@@ -14,7 +15,18 @@ const Dashboard = () => {
   console.log("is instructor", isInstructor);
 
   return (
-    <div>
+    <div className="">
+    <motion.h1
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+            duration: 2,
+            delay: 0.3,
+            ease: [0.5, 0.71, 1, 1.5],
+        }}
+        initial={{ opacity: 0, scale: 0 }}
+        whileHover={{ scale: 1 }}
+    >
+        <div>
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
@@ -64,6 +76,9 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
+    </motion.h1>
+</div>
+    
   );
 };
 
