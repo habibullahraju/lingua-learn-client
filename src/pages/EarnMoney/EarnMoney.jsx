@@ -14,7 +14,7 @@ const EarnMoney = () => {
           Today!
         </p>
         <div className="flex gap-8">
-          <Link to="/login"><button className="btn btn-neutral rounded-full">Be a Tutor</button></Link>
+          <Link to="/login"><button className="btn btn-primary rounded-full">Be a Tutor</button></Link>
           <button className="btn rounded-full">Discover more</button>
         </div>
       </div>
