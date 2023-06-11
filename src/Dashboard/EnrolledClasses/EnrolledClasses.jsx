@@ -6,7 +6,7 @@ import EnrollClassCard from "./EnrollClassCard";
 const EnrolledClasses = () => {
   const {user} = useContext(AuthContext);
   const [axiosSecure] = useAxiosSecure();
-  const [classId, setClassId] = useState([]);
+  const [myEnrollClasses, setMyEnrollClasses] = useState([]);
   const [allClass, setAllClass] = useState([]);
   const myIdArray = [];
 
@@ -17,10 +17,13 @@ const EnrolledClasses = () => {
   }, []);
   useEffect(() => {
     axiosSecure.get(`/enrolled-classes/${user?.email}`).then((data) => {
-      setClassId(data.data);
+      setMyEnrollClasses(data.data);
     });
   }, []);
-  classId.map((item) => item.enrolledClassesId.map((id) => myIdArray.push(id)));
+  myEnrollClasses.map(item => myIdArray.push(item.enrolledClassesId))
+  console.log(myEnrollClasses);
+  console.log(myIdArray);
+  // myEnrollClasses.map((item) => item.enrolledClassesId.map((id) => myIdArray.push(id)));
   const myClass = allClass.filter((product) => myIdArray.includes(product._id));
  
 

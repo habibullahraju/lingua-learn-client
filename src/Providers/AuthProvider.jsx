@@ -1,35 +1,40 @@
 import React, {createContext, useEffect, useState} from "react";
-import {GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile} from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
 import {app} from "../firebase/firebase.config";
 import axios from "axios";
 const auth = getAuth(app);
 export const AuthContext = createContext(null);
-const googleProvider = new GoogleAuthProvider()
-
+const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({children}) => {
-    const [user, setUser] = useState(null)
-    const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    
-
-
-  const createUser = (email, password)=>{
+  const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
-  }
-  const signIn = (email, password)=>{
+  };
+  const signIn = (email, password) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth,email, password);
-  }
-  const signInWithGoogle = ()=>{
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+  const signInWithGoogle = () => {
     setLoading(true);
-    return signInWithPopup(auth, googleProvider)
-  }
-  const logOut = ()=>{
+    return signInWithPopup(auth, googleProvider);
+  };
+  const logOut = () => {
     setLoading(true);
     return signOut(auth);
-  }
+  };
   const updateUserProfile = (name, photoURL) => {
     return updateProfile(auth.currentUser, {
       displayName: name,
@@ -43,7 +48,7 @@ const AuthProvider = ({children}) => {
       console.log("current user", currentUser);
       if (currentUser) {
         axios
-          .post("http://localhost:5000/jwt", {
+          .post("https://lingualearn-server.vercel.app/jwt", {
             email: currentUser.email,
           })
           .then((data) => {
@@ -59,7 +64,6 @@ const AuthProvider = ({children}) => {
     };
   }, []);
 
-
   const authInfo = {
     user,
     loading,
@@ -67,7 +71,7 @@ const AuthProvider = ({children}) => {
     signIn,
     signInWithGoogle,
     logOut,
-    updateUserProfile
+    updateUserProfile,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

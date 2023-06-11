@@ -2,10 +2,10 @@ import {useEffect} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {useContext} from "react";
-import { AuthContext } from "../Providers/AuthProvider";
+import {AuthContext} from "../Providers/AuthProvider";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://lingualearn-server.vercel.app",
 });
 
 const useAxiosSecure = () => {
