@@ -65,7 +65,7 @@ const Dashboard = () => {
             )}
             {!isAdmin && !isInstructor && 
             <li>
-            <NavLink to="/"><FaMoneyBillAlt></FaMoneyBillAlt> Payment History</NavLink>
+            <NavLink to="/dashboard/payment-history"><FaMoneyBillAlt></FaMoneyBillAlt> Payment History</NavLink>
           </li>
             }
             {/* TODO */}

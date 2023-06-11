@@ -20,6 +20,7 @@ import Payment from "../Dashboard/Payment/Payment";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import AdminRoute from "./AdminRoute";
 import InstructorRoute from "./InstructorRoute";
+import PaymentHistory from "../pages/PaymentHistory/PaymentHistory";
 
 
   export const router = createBrowserRouter([
@@ -61,6 +62,10 @@ import InstructorRoute from "./InstructorRoute";
         {
             path: 'enroll-classes',
             element: <EnrolledClasses></EnrolledClasses>
+        },
+        {
+          path: 'payment-history',
+          element: <PaymentHistory></PaymentHistory>
         },
         {
           path: '/dashboard/payment',
