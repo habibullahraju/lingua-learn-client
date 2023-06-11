@@ -25,6 +25,8 @@ const Dashboard = () => {
         }}
         initial={{ opacity: 0, scale: 0 }}
         whileHover={{ scale: 1 }}
+        
+   
     >
         <div>
       <div className="drawer lg:drawer-open">
